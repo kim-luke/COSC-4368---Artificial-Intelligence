@@ -7,23 +7,22 @@ using namespace std;
 // Generates random numbers in the given z range
 // If decider is 1, then the generated number stays positive
 float generateRands(float radius) {
-	float generatedNum = rand() / (float)RAND_MAX * radius - 1;
+	float generatedNum = (float(rand()) / float((RAND_MAX)) * radius);
 	int decider = (rand() % 2);
 
 	if (decider == 1) {
-		cout << generatedNum << endl;
 		return generatedNum;
 	}
 
 	else {
 		generatedNum = 0 - generatedNum;
-		cout << generatedNum << endl;
 		return generatedNum;
-	}
-	
+	}		
 }
 
-void randomizedHillClimbing(float x, float y, int neighborCount, float radius) {
+void randomizedHillClimbing(float x, float y, int neighborCount, float radius, int seed) {
+
+	srand(seed);
 
 	// Stores our answers
 	float answer = 0;
@@ -49,59 +48,111 @@ void randomizedHillClimbing(float x, float y, int neighborCount, float radius) {
 		bestX = x;
 		bestY = y;
 		solutionCount++;
-		cout << bestX << endl;
-		cout << bestY << endl;
-		cout << "Current answer: " << answer << endl;
-		cout << "The current best solution: " << "x = " << bestX << " y = " << bestY << endl;
-		cout << endl;
 	}
 	
 	z1 = generateRands(radius);
 	z2 = generateRands(radius);
-	cout << endl;
 
-	x += z1;
-	cout << x << endl;
-	y += z2;
-	cout << y << endl;
 	curX = x;
 	curY = y;
+	curX += z1;
+	curY += z2;
 
 	// Runs for one less than the neighborCount due to the previous first run
 	for (int i = 0; i < neighborCount - 1; i++) {
-		answer = ((((curX * curX) + curY - 11) * ((curX * curX) + curY - 11)) + ((curX + (curY * curY) - 7) * (curX + (curY * curY) - 7)));
+		if (curX <= 6 && curY <= 6) {
+			answer = ((((curX * curX) + curY - 11) * ((curX * curX) + curY - 11)) + ((curX + (curY * curY) - 7) * (curX + (curY * curY) - 7)));
+			//cout << "answer " << answer << endl;
 
-		if (answer < currentMin) {
-			currentMin = answer;
-			bestX = curX;
-			bestY = curY;
-			solutionCount++;
-			cout << "Current answer: " << answer << endl;
-			cout << "The current best solution: " << "x = " << bestX << " y = " << bestY << endl;
-			cout << endl;
+			if (answer < currentMin) {
+				currentMin = answer;
+				bestX = curX;
+				bestY = curY;
+				solutionCount++;
+				//cout << "The current min is: " << currentMin << endl;
+			}
+
+			z1 = generateRands(radius);
+			z2 = generateRands(radius);
+
+			curX += z1;
+			curY += z2;
+			/*cout << "current x " << curX << endl;
+			cout << "z1 " << z1 << endl;
+
+			cout << "current y " << curY << endl;
+			cout << "z2 " << z2 << endl;
+			cout << endl; */
 		}
 
-		z1 = generateRands(radius);
-		z2 = generateRands(radius);
-		cout << endl;
+		else {
+			break;
+		}
 
-		curX += z1;
-		curY += z2; 
 	}
 
-	cout << "The number of solutions we found is: " << solutionCount << endl;
-	cout << "The best solution found is: " << "x = " << bestX << " y = " << bestY << endl;
+	cout << "This run contains the starting point: " << "(" << x << "," << y << ")" << ", a neighbor count of: " << neighborCount << ", and a radius of: " << radius << endl;
+	cout << "The number of solutions we found is: " << solutionCount << endl;	
+	cout << "The best solution found is: " << currentMin << ", with the coordinates being: " <<  "x = " << bestX << " y = " << bestY << endl;
+	cout << endl;
 }  
 
 int main() {
+	float startPoints[8] = {2.9, 3.2, -2.5, 3.2, 4.2, -2, 0, 0};
+	int neighborCount[2] = { 30, 120 };
+	float radius[2] = { 0.03, 0.1 };
+	int seed[2] = { 12345123, 48932};
 
-	float x = 1;
-	float y = 0;
+	randomizedHillClimbing(startPoints[0], startPoints[1], neighborCount[0], radius[0], seed[0]);
+	randomizedHillClimbing(startPoints[0], startPoints[1], neighborCount[0], radius[0], seed[1]);
 
-	srand(time(NULL));
+	randomizedHillClimbing(startPoints[0], startPoints[1], neighborCount[0], radius[1], seed[0]);
+	randomizedHillClimbing(startPoints[0], startPoints[1], neighborCount[0], radius[1], seed[1]);
 
-	randomizedHillClimbing(x, y, 30, .05);
+	randomizedHillClimbing(startPoints[0], startPoints[1], neighborCount[1], radius[0], seed[0]);
+	randomizedHillClimbing(startPoints[0], startPoints[1], neighborCount[1], radius[0], seed[1]);
 
+	randomizedHillClimbing(startPoints[0], startPoints[1], neighborCount[1], radius[1], seed[0]);
+	randomizedHillClimbing(startPoints[0], startPoints[1], neighborCount[1], radius[1], seed[1]);
+
+	randomizedHillClimbing(startPoints[2], startPoints[3], neighborCount[0], radius[0], seed[0]);
+	randomizedHillClimbing(startPoints[2], startPoints[3], neighborCount[0], radius[0], seed[1]);
+
+	randomizedHillClimbing(startPoints[2], startPoints[3], neighborCount[0], radius[1], seed[0]);
+	randomizedHillClimbing(startPoints[2], startPoints[3], neighborCount[0], radius[1], seed[1]);
+
+	randomizedHillClimbing(startPoints[2], startPoints[3], neighborCount[1], radius[0], seed[0]);
+	randomizedHillClimbing(startPoints[2], startPoints[3], neighborCount[1], radius[0], seed[1]);
+
+	randomizedHillClimbing(startPoints[2], startPoints[3], neighborCount[1], radius[1], seed[0]);
+	randomizedHillClimbing(startPoints[2], startPoints[3], neighborCount[1], radius[1], seed[1]);
+
+	randomizedHillClimbing(startPoints[4], startPoints[5], neighborCount[0], radius[0], seed[0]);
+	randomizedHillClimbing(startPoints[4], startPoints[5], neighborCount[0], radius[0], seed[1]);
+
+	randomizedHillClimbing(startPoints[4], startPoints[5], neighborCount[0], radius[1], seed[0]);
+	randomizedHillClimbing(startPoints[4], startPoints[5], neighborCount[0], radius[1], seed[1]);
+
+	randomizedHillClimbing(startPoints[4], startPoints[5], neighborCount[1], radius[0], seed[0]);
+	randomizedHillClimbing(startPoints[4], startPoints[5], neighborCount[1], radius[0], seed[1]);
+
+	randomizedHillClimbing(startPoints[4], startPoints[5], neighborCount[1], radius[1], seed[0]);
+	randomizedHillClimbing(startPoints[4], startPoints[5], neighborCount[1], radius[1], seed[1]);
+
+	randomizedHillClimbing(startPoints[6], startPoints[7], neighborCount[0], radius[0], seed[0]);
+	randomizedHillClimbing(startPoints[6], startPoints[7], neighborCount[0], radius[0], seed[1]);
+
+	randomizedHillClimbing(startPoints[6], startPoints[7], neighborCount[0], radius[1], seed[0]);
+	randomizedHillClimbing(startPoints[6], startPoints[7], neighborCount[0], radius[1], seed[1]);
+
+	randomizedHillClimbing(startPoints[6], startPoints[7], neighborCount[1], radius[0], seed[0]);
+	randomizedHillClimbing(startPoints[6], startPoints[7], neighborCount[1], radius[0], seed[1]);
+
+	randomizedHillClimbing(startPoints[6], startPoints[7], neighborCount[1], radius[1], seed[0]);
+	randomizedHillClimbing(startPoints[6], startPoints[7], neighborCount[1], radius[1], seed[1]);
+
+	randomizedHillClimbing(4.2, -2, 75, 0.065, 6197027);
+	
 	system("pause");
 	return 0;
 }
