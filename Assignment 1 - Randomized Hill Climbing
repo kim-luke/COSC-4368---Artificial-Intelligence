@@ -1,0 +1,107 @@
+#include <iostream>
+#include <string>
+#include <stdlib.h>
+#include <ctime>
+using namespace std;
+
+// Generates random numbers in the given z range
+// If decider is 1, then the generated number stays positive
+float generateRands(float radius) {
+	float generatedNum = rand() / (float)RAND_MAX * radius - 1;
+	int decider = (rand() % 2);
+
+	if (decider == 1) {
+		cout << generatedNum << endl;
+		return generatedNum;
+	}
+
+	else {
+		generatedNum = 0 - generatedNum;
+		cout << generatedNum << endl;
+		return generatedNum;
+	}
+	
+}
+
+void randomizedHillClimbing(float x, float y, int neighborCount, float radius) {
+
+	// Stores our answers
+	float answer = 0;
+
+	// Stores the current best (smallest) solution
+	float currentMin = 999;
+
+	float curX = 0;
+	float curY = 0;
+	float bestX = 0;
+	float bestY = 0;
+	float z1 = 0;
+	float z2 = 0;
+	int solutionCount = 0;
+
+	// We put x and y into the function below and get an answer
+	answer = ((((x * x) + y - 11) * ((x * x) + y - 11)) + ((x + (y * y) - 7) * (x + (y * y) - 7)));
+
+	// Given that answer is smaller than our current best solution
+	// Saves the current x and current y, and increments solutionCount
+	if (answer < currentMin) {
+		currentMin = answer;
+		bestX = x;
+		bestY = y;
+		solutionCount++;
+		cout << bestX << endl;
+		cout << bestY << endl;
+		cout << "Current answer: " << answer << endl;
+		cout << "The current best solution: " << "x = " << bestX << " y = " << bestY << endl;
+		cout << endl;
+	}
+	
+	z1 = generateRands(radius);
+	z2 = generateRands(radius);
+	cout << endl;
+
+	x += z1;
+	cout << x << endl;
+	y += z2;
+	cout << y << endl;
+	curX = x;
+	curY = y;
+
+	// Runs for one less than the neighborCount due to the previous first run
+	for (int i = 0; i < neighborCount - 1; i++) {
+		answer = ((((curX * curX) + curY - 11) * ((curX * curX) + curY - 11)) + ((curX + (curY * curY) - 7) * (curX + (curY * curY) - 7)));
+
+		if (answer < currentMin) {
+			currentMin = answer;
+			bestX = curX;
+			bestY = curY;
+			solutionCount++;
+			cout << "Current answer: " << answer << endl;
+			cout << "The current best solution: " << "x = " << bestX << " y = " << bestY << endl;
+			cout << endl;
+		}
+
+		z1 = generateRands(radius);
+		z2 = generateRands(radius);
+		cout << endl;
+
+		curX += z1;
+		curY += z2; 
+	}
+
+	cout << "The number of solutions we found is: " << solutionCount << endl;
+	cout << "The best solution found is: " << "x = " << bestX << " y = " << bestY << endl;
+}  
+
+int main() {
+
+	float x = 1;
+	float y = 0;
+
+	srand(time(NULL));
+
+	randomizedHillClimbing(x, y, 30, .05);
+
+	system("pause");
+	return 0;
+}
