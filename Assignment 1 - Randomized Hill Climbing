@@ -1,3 +1,15 @@
+/*
+	Luke Kim - 1478875
+	COSC 4368: Fundamentals of Artificial Intelligence – Assignment 1 - Problem 4
+	Due: February 22, 2020
+
+	This program will take given inputs and use them as parameters for a Randomized
+	Hill Climbing algorithm. The program generates random numbers based on a given 
+	margin, and tries to find the smallest possible value from the given function. 
+	The current best solution will be stored, and by the end of the algorithm the
+	program will have the best overall solution.
+*/
+
 #include <iostream>
 #include <string>
 #include <stdlib.h>
@@ -62,14 +74,12 @@ void randomizedHillClimbing(float x, float y, int neighborCount, float radius, i
 	for (int i = 0; i < neighborCount - 1; i++) {
 		if (curX <= 6 && curY <= 6) {
 			answer = ((((curX * curX) + curY - 11) * ((curX * curX) + curY - 11)) + ((curX + (curY * curY) - 7) * (curX + (curY * curY) - 7)));
-			cout << "answer " << answer << endl;
 
 			if (answer < currentMin) {
 				currentMin = answer;
 				bestX = curX;
 				bestY = curY;
 				solutionCount++;
-				cout << "The current min is: " << currentMin << endl;
 			}
 
 			z1 = generateRands(radius);
@@ -77,12 +87,6 @@ void randomizedHillClimbing(float x, float y, int neighborCount, float radius, i
 
 			curX += z1;
 			curY += z2;
-			/*cout << "current x " << curX << endl;
-			cout << "z1 " << z1 << endl;
-
-			cout << "current y " << curY << endl;
-			cout << "z2 " << z2 << endl;
-			cout << endl; */
 		}
 
 		else {
@@ -151,7 +155,7 @@ int main() {
 	randomizedHillClimbing(startPoints[6], startPoints[7], neighborCount[1], radius[1], seed[0]);
 	randomizedHillClimbing(startPoints[6], startPoints[7], neighborCount[1], radius[1], seed[1]);
 
-	randomizedHillClimbing(4.2, -2, 75, 0.065, 6197027); 
+	randomizedHillClimbing(-2.600001, 3.2, 200, 0.065, 6197027); 
 	
 	system("pause");
 	return 0;
