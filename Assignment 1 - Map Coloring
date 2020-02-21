@@ -1,1 +1,14 @@
+/*
+	Luke Kim - 1478875
+	COSC 4368: Fundamentals of Artificial Intelligence – Assignment 1 - Problem 5
+	Due: February 22, 2020
 
+	This program will read .csv files, and store their data as inputs. 
+	Using the data, the program will assign colors based on if 
+	certain states are adjacent.
+*/
+
+int main() {
+	
+	return 0;
+}
