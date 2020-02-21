@@ -62,14 +62,14 @@ void randomizedHillClimbing(float x, float y, int neighborCount, float radius, i
 	for (int i = 0; i < neighborCount - 1; i++) {
 		if (curX <= 6 && curY <= 6) {
 			answer = ((((curX * curX) + curY - 11) * ((curX * curX) + curY - 11)) + ((curX + (curY * curY) - 7) * (curX + (curY * curY) - 7)));
-			//cout << "answer " << answer << endl;
+			cout << "answer " << answer << endl;
 
 			if (answer < currentMin) {
 				currentMin = answer;
 				bestX = curX;
 				bestY = curY;
 				solutionCount++;
-				//cout << "The current min is: " << currentMin << endl;
+				cout << "The current min is: " << currentMin << endl;
 			}
 
 			z1 = generateRands(radius);
@@ -94,7 +94,7 @@ void randomizedHillClimbing(float x, float y, int neighborCount, float radius, i
 	cout << "This run contains the starting point: " << "(" << x << "," << y << ")" << ", a neighbor count of: " << neighborCount << ", and a radius of: " << radius << endl;
 	cout << "The number of solutions we found is: " << solutionCount << endl;	
 	cout << "The best solution found is: " << currentMin << ", with the coordinates being: " <<  "x = " << bestX << " y = " << bestY << endl;
-	cout << endl;
+	cout << endl; 
 }  
 
 int main() {
@@ -151,7 +151,7 @@ int main() {
 	randomizedHillClimbing(startPoints[6], startPoints[7], neighborCount[1], radius[1], seed[0]);
 	randomizedHillClimbing(startPoints[6], startPoints[7], neighborCount[1], radius[1], seed[1]);
 
-	randomizedHillClimbing(4.2, -2, 75, 0.065, 6197027);
+	randomizedHillClimbing(4.2, -2, 75, 0.065, 6197027); 
 	
 	system("pause");
 	return 0;
