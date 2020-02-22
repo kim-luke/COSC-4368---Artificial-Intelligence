@@ -3,8 +3,8 @@
 	COSC 4368: Fundamentals of Artificial Intelligence – Assignment 1 - Problem 5
 	Due: February 22, 2020
 
-	This program will read .csv files, and store their data as inputs. 
-	Using the data, the program will assign colors based on if 
+	This program will read .csv files, and store their data as inputs.
+	Using the data, the program will assign colors based on if
 	certain states are adjacent.
 */
 
@@ -14,7 +14,7 @@
 #include <sstream>
 using namespace std;
 
-void storeGraph(ifstream& file, int** array, int rowSize, int colSize) {
+void storeGraph(ifstream& file, string** array, int rowSize, int colSize) {
 
 	string line = "";
 	string field = "";
@@ -26,15 +26,13 @@ void storeGraph(ifstream& file, int** array, int rowSize, int colSize) {
 		for (int j = 0; j < colSize; j++) {
 
 			getline(iss, field, ',');
-
-			stringstream convertor(field);
-			convertor >> array[i][j];
+			
+			array[i][j] = field;
 		}
-		cout << endl;
 	}
 }
 
-void showGraph(ifstream& file, int** array, int rowSize, int colSize) {
+void showGraph(ifstream& file, string** array, int rowSize, int colSize) {
 	for (int i = 0; i < rowSize; i++) {
 		for (int j = 0; j < colSize; j++) {
 			cout << array[i][j] << " ";
@@ -44,13 +42,12 @@ void showGraph(ifstream& file, int** array, int rowSize, int colSize) {
 }
 
 int main() {
-
+	
 	string line;
 	int lineCount = 0;
 	ifstream csv;
 	csv.open("matrix_aust.csv");
-	cout << "reading inputs now" << endl;
-	
+
 	while (getline(csv, line)) {
 		lineCount++;
 	}
@@ -59,10 +56,10 @@ int main() {
 
 	int rowSize = lineCount;
 	int colSize = lineCount;
-	
-	int** array = new int*[rowSize];
+
+	string** array = new string*[rowSize];
 	for (int i = 0; i < rowSize; i++) {
-		array[i] = new int[colSize];
+		array[i] = new string[colSize];
 	}
 
 	ifstream csv2;
